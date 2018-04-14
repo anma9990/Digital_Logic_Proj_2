@@ -1,0 +1,27 @@
+module Project2_top(MAX10_CLK1_50,KEY,LEDR,HEX0,HEX1,HEX2); // top module Project1_top.v
+
+input MAX10_CLK1_50;   // 50 MHz clock
+input [1:0] KEY;       // declare as input 2 keys (buttons)
+
+output [9:0] LEDR;     // only outputting LEDR[9], other LEDs always off
+output [7:0] HEX0;     // use 3 HEX 7-segments to display info to user
+output [7:0] HEX1;
+output [7:0] HEX2;
+
+wire w0;        // clock divider to BCD_counter
+wire [2:0] w1;  // w2-w4 connects counter to decoders
+wire [3:0] w2;
+wire [3:0] w3;
+wire [3:0] w4;
+
+// instantiate modules for reaction timer
+BCD_counter counterI (w0,w1[2:0],KEY[1:0],w2[3:0],w3[3:0],w4[3:0],LEDR[9:0]);
+Clock_divider dividerI (MAX10_CLK1_50,w0);
+LFSR lfsrI (MAX10_CLK1_50,w1[2:0],w1[2:0]);
+
+// output result to seven-segments with decoders
+BCD_decoder decoderI1 (w2[3:0],HEX0[7:0]);
+BCD_decoder decoderI2 (w3[3:0],HEX1[7:0]);
+BCD_decoder decoderI3 (w4[3:0],HEX2[7:0]);
+
+endmodule
