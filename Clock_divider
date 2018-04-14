@@ -1,0 +1,26 @@
+module Clock_divider (clk,outClk); //instantiated 3 times (each HEX)
+
+parameter n = 50000; //divide clock by 50,000 to make outClk flip every 0.001 seconds
+
+input clk;
+
+output reg outClk;
+
+integer counter; // used for counting clock cycles
+
+initial   // initialize counter to 0
+begin
+  counter = 0;
+end
+
+always @(posedge clk)
+begin
+if (counter < n) begin
+	counter = counter + 1;
+end else begin 
+	outClk = ~outClk;    // divided clk output
+	counter = 0;         // reset counter
+end
+end
+
+endmodule
