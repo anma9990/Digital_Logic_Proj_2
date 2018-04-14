@@ -1,0 +1,25 @@
+module BCD_decoder (wIn[3:0],HEX[7:0]); //instantiated 3 times (each HEX)
+
+input [3:0] wIn;
+
+output reg [7:0] HEX;
+
+// 0s turn on displays, not 1s, due to anode-diode connection
+always @(wIn[3],wIn[2],wIn[1],wIn[0])
+	case ({wIn[3],wIn[2],wIn[1],wIn[0]}) // convert binary to respective HEX
+		4'b0000: HEX[6:0] <= 7'b1000000;
+		4'b0001: HEX[6:0] <= 7'b1111001;
+		4'b0010: HEX[6:0] <= 7'b0100100;
+		4'b0011: HEX[6:0] <= 7'b0110000;
+		4'b0100: HEX[6:0] <= 7'b0011001;
+		4'b0101: HEX[6:0] <= 7'b0010010;
+		4'b0110: HEX[6:0] <= 7'b0000010;
+		4'b0111: HEX[6:0] <= 7'b1111000;
+		4'b1000: HEX[6:0] <= 7'b0000000;
+		4'b1001: HEX[6:0] <= 7'b0011000;
+		default: HEX[6:0] <= 7'b1000000; // any other binary values set to 0 (should never happen)
+	endcase
+	
+// HEX[7] controls decimal, not coded so is always off by default (appropriate for this project)
+
+endmodule
