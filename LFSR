@@ -1,0 +1,14 @@
+
+module LFSR (clk,wIn[2:0],wOut[2:0]);
+
+input clk;
+input [2:0] wIn;
+
+output reg [2:0] wOut;
+
+always @(posedge clk)  // no reset needed, just constantly shift with clock
+begin
+wOut = {wIn[2],wIn[2]^wIn[0],wIn[1]};  // shifting with clock, randomness results from time
+end
+
+endmodule
